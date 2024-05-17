@@ -5,8 +5,6 @@ This is a simple Battleship game implemented in Java with a graphical user inter
 ## Table of Contents
 
 -   [Features](#features)
--   [Usage](#usage)
--   [Project Structure](#project-structure)
 -   [Changes](#changes)
 
 ## Features
