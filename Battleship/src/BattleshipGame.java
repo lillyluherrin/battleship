@@ -2,26 +2,27 @@ import java.util.Random;
 
 public class BattleshipGame {
     private static final int SIZE = 5;
-    private static final char EMPTY = '-';
-    private static final char SHIP = 'S';
-    private static final char HIT = 'X';
-    private static final char MISS = 'O';
+    private Board board;
     private int shipsCount;
     private final int[] shipSizes = {3, 2, 2};
-    private char[][] board = new char[SIZE][SIZE];
+    private int shotsTaken = 0;
 
     public BattleshipGame() {
         shipsCount = shipSizes.length;
-        initializeBoard();
+        board = new Board(SIZE);
         placeShips();
     }
 
     public char[][] getBoard() {
-        return board;
+        return board.getGrid();
     }
 
     public int getShipsCount() {
         return shipsCount;
+    }
+
+    public int getShotsTaken() {
+        return shotsTaken;
     }
 
     public boolean isGameOver() {
@@ -29,22 +30,14 @@ public class BattleshipGame {
     }
 
     public boolean isHit(int row, int col) {
-        if (board[row][col] == SHIP) {
-            board[row][col] = HIT;
-            shipsCount--;
-            return true;
-        } else if (board[row][col] == EMPTY) {
-            board[row][col] = MISS;
-        }
-        return false;
-    }
-
-    private void initializeBoard() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                board[i][j] = EMPTY;
+        shotsTaken++;
+        boolean hit = board.isHit(row, col);
+        if (hit) {
+            if (board.isSunk(row, col)) {
+                shipsCount--;
             }
         }
+        return hit;
     }
 
     private void placeShips() {
@@ -55,44 +48,18 @@ public class BattleshipGame {
                 int row = rand.nextInt(SIZE);
                 int col = rand.nextInt(SIZE);
                 boolean horizontal = rand.nextBoolean();
-                if (canPlaceShip(row, col, size, horizontal)) {
-                    placeShip(row, col, size, horizontal);
+                if (board.canPlaceShip(row, col, size, horizontal)) {
+                    board.placeShip(row, col, size, horizontal);
                     placed = true;
                 }
             }
         }
     }
 
-    private boolean canPlaceShip(int row, int col, int size, boolean horizontal) {
-        if (horizontal) {
-            if (col + size > SIZE) return false;
-            for (int i = 0; i < size; i++) {
-                if (board[row][col + i] != EMPTY) return false;
-            }
-        } else {
-            if (row + size > SIZE) return false;
-            for (int i = 0; i < size; i++) {
-                if (board[row + i][col] != EMPTY) return false;
-            }
-        }
-        return true;
-    }
-
-    private void placeShip(int row, int col, int size, boolean horizontal) {
-        if (horizontal) {
-            for (int i = 0; i < size; i++) {
-                board[row][col + i] = SHIP;
-            }
-        } else {
-            for (int i = 0; i < size; i++) {
-                board[row + i][col] = SHIP;
-            }
-        }
-    }
-
     public void resetGame() {
+        shotsTaken = 0;
         shipsCount = shipSizes.length;
-        initializeBoard();
+        board.resetBoard();
         placeShips();
     }
 }

@@ -7,6 +7,8 @@ public class BattleshipGUI extends JFrame {
     private static final int SIZE = 5;
     private JButton[][] buttons = new JButton[SIZE][SIZE];
     private BattleshipGame game;
+    private JLabel shipsLabel;
+    private JLabel shotsLabel;
 
     public BattleshipGUI() {
         setTitle("Battleship Game");
@@ -18,12 +20,19 @@ public class BattleshipGUI extends JFrame {
         JPanel boardPanel = new JPanel(new GridLayout(SIZE, SIZE));
         initializeButtons(boardPanel);
 
+        JPanel infoPanel = new JPanel(new GridLayout(1, 2));
+        shipsLabel = new JLabel("Remaining Ships: " + game.getShipsCount());
+        shotsLabel = new JLabel("Shots Taken: " + game.getShotsTaken());
+        infoPanel.add(shipsLabel);
+        infoPanel.add(shotsLabel);
+
         JPanel controlPanel = new JPanel();
         JButton restartButton = new JButton("Restart");
         restartButton.addActionListener(e -> resetGame(boardPanel));
         controlPanel.add(restartButton);
 
         add(boardPanel, BorderLayout.CENTER);
+        add(infoPanel, BorderLayout.NORTH);
         add(controlPanel, BorderLayout.SOUTH);
 
         setVisible(true);
@@ -65,11 +74,22 @@ public class BattleshipGUI extends JFrame {
                 buttons[row][col].setBackground(Color.BLUE);
             }
             buttons[row][col].setEnabled(false);
+            updateLabels();
         }
+    }
+
+    private void updateLabels() {
+        shipsLabel.setText("Remaining Ships: " + game.getShipsCount());
+        shotsLabel.setText("Shots Taken: " + game.getShotsTaken());
     }
 
     private void resetGame(JPanel boardPanel) {
         game.resetGame();
         initializeButtons(boardPanel);
+        updateLabels();
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new BattleshipGUI());
     }
 }
