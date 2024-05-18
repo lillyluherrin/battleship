@@ -13,7 +13,7 @@ public class BattleshipGame {
         placeShips();
     }
 
-    public char[][] getBoard() {
+    public char[][] getBoardGrid() {
         return board.getGrid();
     }
 
@@ -32,12 +32,19 @@ public class BattleshipGame {
     public boolean isHit(int row, int col) {
         shotsTaken++;
         boolean hit = board.isHit(row, col);
-        if (hit) {
-            if (board.isSunk(row, col)) {
-                shipsCount--;
-            }
-        }
         return hit;
+    }
+
+    public boolean isSunk(int row, int col) {
+        boolean sunk = board.isSunk(row, col);
+        if (sunk) {
+            shipsCount--;
+        }
+        return sunk;
+    }
+
+    public int[][] getShipLocations(int row, int col) {
+        return board.getShipLocations(row, col);
     }
 
     private void placeShips() {

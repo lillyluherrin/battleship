@@ -66,6 +66,14 @@ public class BattleshipGUI extends JFrame {
             if (game.isHit(row, col)) {
                 buttons[row][col].setText("X");
                 buttons[row][col].setBackground(Color.RED);
+                if (game.isSunk(row, col)) {
+                    int[][] locations = game.getShipLocations(row, col);
+                    if (locations != null) {
+                        for (int[] location : locations) {
+                            buttons[location[0]][location[1]].setBackground(Color.ORANGE);
+                        }
+                    }
+                }
                 if (game.isGameOver()) {
                     JOptionPane.showMessageDialog(null, "Congratulations! You've sunk all the ships!");
                 }

@@ -18,3 +18,4 @@ This is a simple Battleship game implemented in Java with a graphical user inter
 -   Created Main board and logic
 -   Separated game into separate classes for organization
 -   Fixed ship size and orientation bug
+-   Add outline to sunken ships
