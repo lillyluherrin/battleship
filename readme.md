@@ -13,6 +13,11 @@ This is a simple Battleship game implemented in Java with a graphical user inter
 -   Simple GUI for user interaction.
 -   Ability to restart the game.
 
+## Prerequisites
+
+-   Must install the Java JDK
+-   This can be downloaded here: https://www.oracle.com/java/technologies/downloads/
+
 ## Download
 
 -   https://github.com/lillyluherrin/battleship/blob/main/Battleship.jar
