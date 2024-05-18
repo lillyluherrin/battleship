@@ -13,6 +13,10 @@ This is a simple Battleship game implemented in Java with a graphical user inter
 -   Simple GUI for user interaction.
 -   Ability to restart the game.
 
+## Download
+
+-   https://github.com/lillyluherrin/battleship/blob/main/Battleship.jar
+
 ## Changes
 
 -   Created Main board and logic
