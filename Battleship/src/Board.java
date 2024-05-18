@@ -2,8 +2,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
+    private static final int SIZE = 10;  // Updated size
     private final char[][] grid;
-    private final int size;
     private final Map<String, Integer> shipHits;
     private final Map<String, int[][]> shipLocations;
 
@@ -12,9 +12,8 @@ public class Board {
     public static final char HIT = 'X';
     public static final char MISS = 'O';
 
-    public Board(int size) {
-        this.size = size;
-        grid = new char[size][size];
+    public Board() {
+        grid = new char[SIZE][SIZE];
         shipHits = new HashMap<>();
         shipLocations = new HashMap<>();
         initializeBoard();
@@ -25,8 +24,8 @@ public class Board {
     }
 
     public void initializeBoard() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
                 grid[i][j] = EMPTY;
             }
         }
@@ -36,12 +35,12 @@ public class Board {
 
     public boolean canPlaceShip(int row, int col, int size, boolean horizontal) {
         if (horizontal) {
-            if (col + size > this.size) return false;
+            if (col + size > SIZE) return false;
             for (int i = 0; i < size; i++) {
                 if (grid[row][col + i] != EMPTY) return false;
             }
         } else {
-            if (row + size > this.size) return false;
+            if (row + size > SIZE) return false;
             for (int i = 0; i < size; i++) {
                 if (grid[row + i][col] != EMPTY) return false;
             }

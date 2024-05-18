@@ -1,16 +1,39 @@
 import java.util.Random;
 
 public class BattleshipGame {
-    private static final int SIZE = 5;
+    public static final int EASY_TRIES = 50;
+    public static final int MEDIUM_TRIES = 30;
+    public static final int HARD_TRIES = 20;
+    private static final int SIZE = 10;
     private Board board;
     private int shipsCount;
-    private final int[] shipSizes = {3, 2, 2};
+    private final int[] shipSizes = {5, 4, 3, 3, 2};
     private int shotsTaken = 0;
+    private int triesLeft;
+    private String difficulty;
 
-    public BattleshipGame() {
+    public BattleshipGame(String difficulty) {
+        this.difficulty = difficulty;
+        setTriesBasedOnDifficulty(difficulty);
         shipsCount = shipSizes.length;
-        board = new Board(SIZE);
+        board = new Board();
         placeShips();
+    }
+
+    private void setTriesBasedOnDifficulty(String difficulty) {
+        switch (difficulty.toLowerCase()) {
+            case "easy":
+                triesLeft = EASY_TRIES;
+                break;
+            case "medium":
+                triesLeft = MEDIUM_TRIES;
+                break;
+            case "hard":
+                triesLeft = HARD_TRIES;
+                break;
+            default:
+                triesLeft = MEDIUM_TRIES;  // Default to medium
+        }
     }
 
     public char[][] getBoardGrid() {
@@ -25,14 +48,21 @@ public class BattleshipGame {
         return shotsTaken;
     }
 
+    public int getTriesLeft() {
+        return triesLeft;
+    }
+
     public boolean isGameOver() {
-        return shipsCount == 0;
+        return shipsCount == 0 || triesLeft == 0;
     }
 
     public boolean isHit(int row, int col) {
         shotsTaken++;
-        boolean hit = board.isHit(row, col);
-        return hit;
+        return board.isHit(row, col);
+    }
+
+    public void decrementTries() {
+        triesLeft--;
     }
 
     public boolean isSunk(int row, int col) {
@@ -66,6 +96,7 @@ public class BattleshipGame {
     public void resetGame() {
         shotsTaken = 0;
         shipsCount = shipSizes.length;
+        setTriesBasedOnDifficulty(difficulty);
         board.resetBoard();
         placeShips();
     }
